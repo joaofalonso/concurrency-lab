@@ -12,12 +12,16 @@ import java.util.concurrent.*;
 public class AsyncUseCase {
 
     public String execute(){
+        return this.execute(1000, 10);
+    }
+
+    public String execute(int loops, int threadPoolSize){
         System.out.println("Async exec...");
         Instant start = Instant.now();
-        ExecutorService executorService = Executors.newFixedThreadPool(10);
-        System.out.println(String.format("Loop quantity: %s", 1000));
+        ExecutorService executorService = Executors.newFixedThreadPool(threadPoolSize);
+        System.out.println(String.format("Loop quantity: %s", loops));
         ArrayList<CompletableFuture> completableFutures = new ArrayList<>();
-        for (int i = 0; i < 1000; i++) {
+        for (int i = 0; i < loops; i++) {
             int value = i;
             CompletableFuture<Double> doubleCompletableFuture = CompletableFuture.supplyAsync(() -> getValue(Integer.valueOf(value)), executorService);
             completableFutures.add(doubleCompletableFuture);
